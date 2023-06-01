@@ -14,7 +14,7 @@ module.exports = () => {
       install: './src/js/install.js'
     },
     output: {
-      filename: 'bundle.js',
+      filename: '[name].bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
     plugins: [
@@ -22,10 +22,9 @@ module.exports = () => {
         template: './index.html',
         title: 'j.a.t.e',
       }),
-      new MiniCssExtractPlugin(),
       new InjectManifest({
-        swSrc: './src/sw.js',
-        swDest: 'service-worker.js',
+        swSrc: './src-sw.js',
+        swDest: 'src-sw.js',
       }),
       new WebpackPwaManifest({
         name: 'My Progressive Web App',
@@ -34,10 +33,12 @@ module.exports = () => {
         background_color: '#ffffff',
         start_url: './',
         publicPath: './',
-        crossorigin: 'use-credentials', //can be null, use-credentials or anonymous
+        crossorigin: 'use-credentials',
+        fingerprints: false, //can be null, use-credentials or anonymous
         icons: [
           {
             src: path.resolve('src/images/logo.png'),
+            destination: path.join('assets', 'icons'),
             sizes: [96, 128, 192, 256, 384, 512] // multiple sizes
           },
         ]
